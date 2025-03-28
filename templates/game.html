@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}儿童英语学习 - 游戏{% endblock %}
+
+{% block body_attrs %}data-page="game" data-game="{{ game_type }}"{% endblock %}
+
+{% block content %}
+<div class="game-page">
+    <div class="game-header">
+        <a href="{{ url_for('index') }}" class="back-btn">
+            <span style="font-size:24px;">&larr;</span>
+        </a>
+        <h1 class="game-title">
+            {% if game_type == 'matching' %}
+                配对游戏
+            {% elif game_type == 'listening' %}
+                听音识图
+            {% elif game_type == 'coloring' %}
+                涂色游戏
+            {% else %}
+                有趣游戏
+            {% endif %}
+        </h1>
+    </div>
+    
+    <div class="game-container" id="game-content">
+        <div class="loading">游戏加载中...</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<!-- 删除重复的样式，这些样式已移至style.css -->
+{% endblock %} 

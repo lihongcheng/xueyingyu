@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}儿童英语学习 - 家长控制面板{% endblock %}
+
+{% block body_attrs %}data-page="parent"{% endblock %}
+
+{% block content %}
+<div class="parent-panel">
+    <h1 class="parent-title">家长控制面板</h1>
+    
+    <div id="progress-container" class="progress-container">
+        <div class="loading">加载进度数据中...</div>
+    </div>
+    
+    <div class="parent-actions">
+        <a href="{{ url_for('index') }}" class="btn">返回首页</a>
+    </div>
+</div>
+{% endblock %} 

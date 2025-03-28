@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}儿童英语学习{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body {% block body_attrs %}{% endblock %}>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div style="font-size:36px;font-weight:bold;color:#FF6B6B;">儿童英语学习</div>
+            </div>
+            <div class="navigation">
+                <a href="{{ url_for('index') }}" class="icon-btn">
+                    <div style="text-align:center;line-height:80px;font-size:24px;">首页</div>
+                </a>
+                <a href="{{ url_for('parent_dashboard') }}" class="icon-btn">
+                    <div style="text-align:center;line-height:80px;font-size:24px;">家长</div>
+                </a>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+        
+        <footer class="footer">
+            <p>专为3岁儿童设计的英语学习应用</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

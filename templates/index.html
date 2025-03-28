@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}儿童英语学习 - 首页{% endblock %}
+
+{% block body_attrs %}data-page="home"{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h1 class="welcome-title">快乐学英语</h1>
+    
+    <div class="main-options">
+        <div class="option-card">
+            <h2>学习单词</h2>
+            <div class="category-grid" id="category-grid">
+                <!-- 分类将通过JavaScript动态加载 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+        
+        <div class="option-card">
+            <h2>有趣游戏</h2>
+            <div class="games-grid">
+                <a href="{{ url_for('play_game', game_type='matching') }}" class="game-item">
+                    <div class="game-placeholder">配</div>
+                    <div class="game-name">配对游戏</div>
+                </a>
+                
+                <a href="{{ url_for('play_game', game_type='listening') }}" class="game-item">
+                    <div class="game-placeholder">听</div>
+                    <div class="game-name">听音识图</div>
+                </a>
+                
+                <a href="{{ url_for('play_game', game_type='coloring') }}" class="game-item">
+                    <div class="game-placeholder">涂</div>
+                    <div class="game-name">涂色游戏</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryGrid = document.getElementById('category-grid');
+        
+        // 获取分类数据
+        fetch('/api/words?category=all')
+            .then(response => response.json())
+            .then(data => {
+                // 清空加载提示
+                categoryGrid.innerHTML = '';
+                
+                // 添加每个分类
+                Object.keys(data.categories).forEach(categoryKey => {
+                    const category = data.categories[categoryKey];
+                    
+                    const categoryItem = document.createElement('a');
+                    categoryItem.classList.add('category-item');
+                    categoryItem.href = `/learn/${categoryKey}`;
+                    
+                    // 检查是否有图标
+                    if (category.icon) {
+                        // 创建图像元素
+                        const img = document.createElement('img');
+                        img.src = `/static/images/${category.icon}`;
+                        img.alt = category.name;
+                        img.style.width = '100px';
+                        img.style.height = '100px';
+                        img.style.marginBottom = '15px';
+                        
+                        // 设置图像加载错误处理
+                        img.onerror = function() {
+                            categoryItem.innerHTML = `
+                                <div class="placeholder-icon">${category.name.charAt(0)}</div>
+                                <div class="category-name">${category.name}</div>
+                            `;
+                        };
+                        
+                        // 创建名称元素
+                        const nameDiv = document.createElement('div');
+                        nameDiv.className = 'category-name';
+                        nameDiv.textContent = category.name;
+                        
+                        // 添加到分类项目
+                        categoryItem.appendChild(img);
+                        categoryItem.appendChild(nameDiv);
+                    } else {
+                        // 直接使用占位符
+                        categoryItem.innerHTML = `
+                            <div class="placeholder-icon">${category.name.charAt(0)}</div>
+                            <div class="category-name">${category.name}</div>
+                        `;
+                    }
+                    
+                    categoryGrid.appendChild(categoryItem);
+                });
+            })
+            .catch(error => {
+                console.error('获取分类数据失败:', error);
+                categoryGrid.innerHTML = '<div class="error">加载分类失败，请重试</div>';
+            });
+    });
+</script>
+{% endblock %} 

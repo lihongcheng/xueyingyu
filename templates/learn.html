@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}儿童英语学习 - 学习单词{% endblock %}
+
+{% block body_attrs %}data-page="learn" data-category="{{ category }}"{% endblock %}
+
+{% block content %}
+<div class="learn-container">
+    <div class="learn-header">
+        <a href="{{ url_for('index') }}" class="back-btn">
+            <span style="font-size:24px;">&larr;</span>
+        </a>
+        <h1 class="category-title" id="category-title">学习单词</h1>
+    </div>
+    
+    <div id="word-container" class="word-container">
+        <div class="loading">加载中...</div>
+    </div>
+    
+    <div class="learn-footer">
+        <button class="btn" id="previous-word" disabled>上一个</button>
+        <button class="btn" id="next-word">下一个</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取分类
+        const category = document.body.getAttribute('data-category');
+        
+        // 绑定导航按钮事件
+        document.getElementById('previous-word').addEventListener('click', function() {
+            if (window.currentIndex > 0) {
+                showWord(window.currentIndex - 1);
+                updateNavButtons();
+            }
+        });
+        
+        document.getElementById('next-word').addEventListener('click', function() {
+            if (window.currentIndex < window.words.length - 1) {
+                showWord(window.currentIndex + 1);
+                updateNavButtons();
+            }
+        });
+        
+        // 加载分类单词
+        loadCategoryWords(category);
+    });
+</script>
+{% endblock %} 
