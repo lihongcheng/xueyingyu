@@ -17,8 +17,8 @@ AUDIO_CACHE_DIR = os.path.join(os.path.dirname(__file__), 'static', 'audio_cache
 os.makedirs(AUDIO_CACHE_DIR, exist_ok=True)
 
 # 百度API配置
-BAIDU_API_KEY = 'H7yDoUtICfUDcJaH9tMTC1TH'
-BAIDU_SECRET_KEY = 'nCUmRKn4OKAWWEFC5PWgtjXHqjK6yQEM'
+BAIDU_API_KEY = 'xx'
+BAIDU_SECRET_KEY = 'xx'
 
 def get_baidu_token():
     """获取百度API访问令牌"""
